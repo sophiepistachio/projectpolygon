@@ -4,9 +4,8 @@
 #написаны функции vipukl, tru_v, dev_coords, написано завершение
 #Часть Богдана Карповича, сранивание длин сторон многоугольника, поиск точек около самой длинной стороны
 #написаны функции side, points
-#Часть Софьи Бестужевой, проверка нахождения точки внутри многоугольника, вписывание прямоугольников в многоугольника
+#Часть Софьи Бестужевой, проверка нахождения точки внутри многоугольника, вписывание прямоугольников в многоугольника, вывод координат в файл
 #написаны функции inpolygon, rect
-'''!!!ОСТАЛОСЬ ПОПРАВИТЬ БАГИ, ПРОЗРАЧНОСТЬ?, ДОПИСАТЬ ВЫВОД В ФАЙЛ'''
 import pygame
 from pygame.draw import *
 import time
@@ -21,6 +20,8 @@ ori = int(input('введите 1, если задаёте многоуголь�
 screen = pygame.display.set_mode((d, sh))
 clock = pygame.time.Clock()
 
+f = open('coords.txt', 'w')
+f.close()
 def vipukl(coord, ori):
     """ coord - list with starting coordinates of polygon
         ori - ориентация построения многоугольника:
@@ -163,13 +164,18 @@ xh yh - смещение вдоль высоты'''
             xt=x1+xw+xh
             yt=y1+yw+yh
             n=1
+            f = open('coords.txt', 'a')
+            print((x1,y1),(x1+xw,y1+yw),(x1+xw+xh,y1+yw+yh),(x1+xh,y1+yh), file=f)
+            f.close()
         elif ((inpolygon(x1+xw-xh, y1+yw-yh, xc, yc)) > 0) and ((inpolygon(x1-xh, y1-yh, xc, yc)) > 0):
             polygon(screen, (100, 200, 200, 200), [(x1,y1),(x1+xw,y1+yw),(x1+xw-xh,y1+yw-yh),(x1-xh,y1-yh)])
             polygon(screen, (3, 10, 100), [(x1,y1),(x1+xw,y1+yw),(x1+xw-xh,y1+yw-yh),(x1-xh,y1-yh)], 2)
             xt=x1-xw-xh
             yt=y1-yw-yh
             n=0
-
+            f = open('coords.txt', 'a')
+            print((x1,y1),(x1+xw,y1+yw),(x1+xw-xh,y1+yw-yh),(x1-xh,y1-yh), file=f)
+            f.close()
 
         x1 += xw
         y1 += yw
@@ -181,11 +187,17 @@ xh yh - смещение вдоль высоты'''
                 polygon(screen, (3, 10, 100), [(x1,y1),(x1+xw,y1+yw),(x1+xw+xh,y1+yw+yh),(x1+xh,y1+yh)], 2)
                 xt=x1+xw+xh
                 yt=y1+yw+yh
+                f = open('coords.txt', 'a')
+                print((x1,y1),(x1+xw,y1+yw),(x1+xw+xh,y1+yw+yh),(x1+xh,y1+yh), file=f)
+                f.close()
             elif( n==0) and ((inpolygon(x1+xw-xh, y1+yw-yh, xc, yc)) > 0) and ((inpolygon(x1-xh, y1-yh, xc, yc)) > 0) and ((inpolygon(x1+xw, y1+yw, xc, yc)) > 0):
                 polygon(screen, (100, 200, 200, 200), [(x1,y1),(x1+xw,y1+yw),(x1+xw-xh,y1+yw-yh),(x1-xh,y1-yh)])
                 polygon(screen, (3, 10, 100), [(x1,y1),(x1+xw,y1+yw),(x1+xw-xh,y1+yw-yh),(x1-xh,y1-yh)], 2)
                 xt=x1-xw-xh
                 yt=y1-yw-yh
+                f = open('coords.txt', 'a')
+                print((x1,y1),(x1+xw,y1+yw),(x1+xw-xh,y1+yw-yh),(x1-xh,y1-yh), file=f)
+                f.close()
 
 
             x1 += xw
